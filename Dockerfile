@@ -27,5 +27,5 @@
     COPY --from=build /app/dist ./dist
     COPY package.json .
     
-    CMD ["node", "dist/app.js"]
+    CMD ["node", "dist/main.js"]
     

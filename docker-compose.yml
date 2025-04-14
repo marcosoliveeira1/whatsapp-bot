@@ -1,5 +1,5 @@
 services:
-  whatsapp-bot:
+  whatsapp-bot: #for coolify
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: whatsapp-bot-dev
-    command: npm run dev
+    command: npm run start:dev
     volumes:
       - .:/app
       - /app/node_modules
