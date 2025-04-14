@@ -1,0 +1,26 @@
+services:
+  whatsapp-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: whatsapp-bot
+    restart: unless-stopped
+    volumes:
+      - /auth:/app/auth
+    env_file:
+      - .env
+    ports:
+      - '3000:3000'
+  whatsapp-bot-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: whatsapp-bot-dev
+    command: npm run dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    ports:
+      - '3000:3000'
