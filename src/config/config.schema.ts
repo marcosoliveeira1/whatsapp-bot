@@ -36,7 +36,7 @@ export const configSchema = z.object({
   }),
 
   app: z.object({
-    port: z.coerce.number().int().positive().default(3003),
+    port: z.coerce.number().int().positive().default(3000),
   }),
 });
 
