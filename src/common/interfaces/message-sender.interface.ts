@@ -15,4 +15,5 @@ export interface IMessageSender {
     correlationId?: string,
   ): Promise<boolean>;
   isConnected(): boolean;
+  getFormattedJid(to: string): string;
 }

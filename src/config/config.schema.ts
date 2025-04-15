@@ -20,7 +20,7 @@ export const configSchema = z.object({
       outgoing: z
         .string()
         .min(1, { message: 'QUEUE_SEND_MESSAGES cannot be empty' })
-        .default('message_send'),
+        .default('send_message'),
     }),
   }),
 

@@ -54,17 +54,14 @@ export class MessagesUpsertHandler
       const correlationId = `wa-in-${msgId}-${uuidv4().substring(0, 8)}`;
       const logPrefix = `[${correlationId}] `;
 
+      const isFiltered = this.isFilteredMessage(message, payload);
       // Enhanced Filtering Logic
-      if (
-        message.key?.fromMe || // Ignore messages sent by self
-        payload.type !== 'notify' || // Only handle new message notifications
-        !message.key?.remoteJid || // Ensure sender JID exists
-        message.key?.remoteJid === 'status@broadcast' || // Ignore status updates
-        message.messageStubType || // Ignore message stubs (call logs, group changes etc.)
-        message.broadcast // Ignore broadcast list messages (can be noisy)
-      ) {
+      if (isFiltered) {
+        this.logger.debug({
+          key: message.key,
+        });
         this.logger.debug(
-          `${logPrefix}Ignoring message based on filter criteria (fromMe, type, stub, broadcast, status). Msg ID: ${msgId}`,
+          `${logPrefix}Ignoring message based on filter criteria (${isFiltered.criteria}). Msg ID: ${msgId}`,
         );
         continue; // Skip to the next message if any
       }
@@ -128,5 +125,31 @@ export class MessagesUpsertHandler
         // Decide on error handling: retry? dead-letter? For now, just log.
       }
     } // End of loop through messages
+  }
+
+  private isFilteredMessage(
+    message: WAMessage,
+    payload: MessagesUpsertPayload,
+  ) {
+    if (message.key?.fromMe) {
+      return { criteria: 'fromMe' };
+    }
+    if (payload.type !== 'notify') {
+      return { criteria: 'type is not notify' };
+    }
+    if (!message.key?.remoteJid) {
+      return { criteria: 'remoteJid is missing' };
+    }
+    if (message.key?.remoteJid === 'status@broadcast') {
+      return { criteria: 'remoteJid is status@broadcast' };
+    }
+    if (message.messageStubType) {
+      return { criteria: 'messageStubType' };
+    }
+    if (message.broadcast) {
+      return { criteria: 'broadcast' };
+    }
+
+    return false;
   }
 }

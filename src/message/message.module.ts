@@ -2,15 +2,17 @@
 
 import { Module } from '@nestjs/common';
 import { MessageController } from './message.controller';
-import { AmqpModule } from '../amqp/amqp.module'; // Needed to inject IMessagePublisher
-import { ConfigModule } from '@nestjs/config'; // Needed to inject ConfigService
+import { AmqpModule } from '../amqp/amqp.module';
+import { ConfigModule } from '@nestjs/config';
+// import { WhatsappModule } from '../whatsapp/whatsapp.module'; // Import WhatsappModule
 
 @Module({
   imports: [
-    AmqpModule, // Provides IMessagePublisher
-    ConfigModule, // Provides ConfigService
+    // WhatsappModule, // Provides IMessageSender via WhatsappSenderService
+    AmqpModule, // Remove if no longer needed
+    ConfigModule, // Remove if no longer needed
   ],
   controllers: [MessageController],
-  providers: [], // No specific providers needed here
+  providers: [],
 })
 export class MessageModule {}

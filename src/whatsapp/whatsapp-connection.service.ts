@@ -202,11 +202,8 @@ export class WhatsappConnectionService
           this.reconnectAttempts++; // Increment attempts *after* failure (close)
           this.scheduleReconnect();
         } else {
-          this.logger.error(
-            'Logged out. Session data needs to be deleted manually.',
-          );
-          // Optional: Trigger handleLogout only if you want automatic session deletion
-          // this.handleLogout();
+          this.handleLogout();
+          this.scheduleReconnect();
         }
       } else if (connection === 'open') {
         this.isConnecting = false; // Connection successful

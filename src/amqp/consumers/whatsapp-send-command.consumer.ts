@@ -102,7 +102,7 @@ export class WhatsappSendCommandConsumer implements OnModuleInit {
       // Store the consumer tag
       const reply = await this.channel.consume(
         this.sendQueue,
-        (msg) => this.handleMessage(msg as InputHandleMessage), // Pass directly
+        (msg) => this.handleMessage(msg as InputHandleMessage),
         { noAck: false }, // Manual acknowledgement is crucial
       );
       this.consumerTag = reply.consumerTag;
@@ -202,9 +202,7 @@ export class WhatsappSendCommandConsumer implements OnModuleInit {
       // 5. Format Recipient and Send
       errorSource = 'sending';
       // Ensure .net suffix, handle potential variations (e.g., group IDs ending in @g.us)
-      const formattedTo = content.to.includes('@')
-        ? content.to
-        : `${content.to}@s.whatsapp.net`; // Default to standard chat ID
+      const formattedTo = this.messageSender.getFormattedJid(content.to); // Default to standard chat ID
 
       this.logger.log(
         `${logPrefix}Attempting to send message to ${formattedTo} via MessageSender.`,

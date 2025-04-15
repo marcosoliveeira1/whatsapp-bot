@@ -54,7 +54,9 @@ export class WhatsappEventRegistryService implements OnModuleInit {
 
     this.handlers.forEach((handler) => {
       const eventName = handler.eventName;
-
+      this.logger.debug(
+        `Registering handler ${handler.constructor.name} for event [${eventName}]`,
+      );
       try {
         // Pass socket instance to handler if needed
         socket.ev.on(eventName, (payload: any) => {

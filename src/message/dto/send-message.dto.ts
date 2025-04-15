@@ -6,7 +6,7 @@ export class SendMessageDto {
   @IsString()
   @IsNotEmpty()
   @Matches(/^\d+$/, { message: 'Phone number must contain only digits' })
-  @Length(10, 15, { message: 'Phone number length is invalid' }) // Adjust length as needed
+  @Length(10, 20, { message: 'Phone number length is invalid' }) // Adjust length as needed
   to: string; // Expecting phone number without '@s.whatsapp.net'
 
   @IsString()
